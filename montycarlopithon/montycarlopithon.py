@@ -14,6 +14,8 @@ class MontyCarloPiThon:
         self._hits_total = 0
         self.pi = None
         self._set_seed()
+        self._xs = []
+        self._ys = []
 
     def _set_seed(self, seed=None) -> None:
         random.seed(seed)
@@ -36,20 +38,18 @@ class MontyCarloPiThon:
     def run(self, iterations: int) -> None:
         '''Runs the Monte Carlo simulation'''
         for i in range(iterations):
-            x = random.uniform(0, 1)
-            y = random.uniform(0, 1)
-            if sqrt(x * x + y * y) < 1.0:
+            x, y = self._get_random_xy_coordinates()
+            self._xs.append(x)
+            self._ys.append(y)
+            if x * x + y * y < 1.0:
                 self._hits_in_circle += 1
         self._hits_total += iterations
 
         self.pi = self._calculate_pi(self._hits_in_circle, self._hits_total)
 
+    def _get_random_xy_coordinates(self) -> tuple:
+        return (random.uniform(0, 1), random.uniform(0, 1))
+
     def _calculate_pi(self, hits_in_circle: float, hits_total: float) -> float:
         '''Formula for calculating Pi from hits in circle and total hits'''
         return 4.0 * float(hits_in_circle) / float(hits_total)
-
-    # def str(self):
-    #     string = f'MonteCarloPiThon: '
-    #     string += f'Pi: {self.pi}, '
-    #     string += f'{self._hits_in_circle}/{self._hits_total} (in/to)'
-    #     return string
