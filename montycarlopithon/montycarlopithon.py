@@ -10,12 +10,12 @@ class MontyCarloPiThon:
     '''
 
     def __init__(self) -> None:
-        self._hits_in_circle = 0
-        self._hits_total = 0
         self.pi = None
         self._set_seed()
-        self._xs = []
-        self._ys = []
+        self._xs_inside = []
+        self._ys_inside = []
+        self._xs_outside = []
+        self._ys_outside = []
 
     def _set_seed(self, seed=None) -> None:
         random.seed(seed)
@@ -39,17 +39,21 @@ class MontyCarloPiThon:
         '''Runs the Monte Carlo simulation'''
         for i in range(iterations):
             x, y = self._get_random_xy_coordinates()
-            self._xs.append(x)
-            self._ys.append(y)
-            if x * x + y * y < 1.0:
-                self._hits_in_circle += 1
-        self._hits_total += iterations
-
-        self.pi = self._calculate_pi(self._hits_in_circle, self._hits_total)
+            if self._is_inside_circle(x, y):
+                self._xs_inside.append(x)
+                self._ys_inside.append(y)
+            else:
+                self._xs_outside.append(x)
+                self._ys_outside.append(y)
+        self.pi = self._calculate_pi()
 
     def _get_random_xy_coordinates(self) -> tuple:
-        return (random.uniform(0, 1), random.uniform(0, 1))
+        return (random.uniform(0.0, 1.0), random.uniform(0.0, 1.0))
 
-    def _calculate_pi(self, hits_in_circle: float, hits_total: float) -> float:
+    def _is_inside_circle(self, x: float, y: float) -> bool:
+        return x * x + y * y < 1.0
+
+    def _calculate_pi(self) -> float:
         '''Formula for calculating Pi from hits in circle and total hits'''
-        return 4.0 * float(hits_in_circle) / float(hits_total)
+        return 4.0 * float(len(self._xs_inside)) / float(
+            len(self._xs_inside) + len(self._xs_outside))
