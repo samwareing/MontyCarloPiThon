@@ -9,14 +9,13 @@ class PiCalculatorPython:
     '''
 
     def __init__(self) -> None:
-        self.pi = None
+        self.pi_approximations = []
+        self.coords_inside = []
+        self.coords_outside = []
         self._set_seed()
-        self._xs_inside = []
-        self._ys_inside = []
-        self._xs_outside = []
-        self._ys_outside = []
 
     def _set_seed(self, seed=None) -> None:
+        '''Allows setting your custom seed.'''
         random.seed(seed)
 
     '''
@@ -35,24 +34,31 @@ class PiCalculatorPython:
     '''
 
     def run(self, iterations: int) -> None:
-        '''Runs the Monte Carlo simulation'''
+        '''Run Monte Carlo approximation of Pi'''
         for i in range(iterations):
             x, y = self._get_random_xy_coordinates()
-            if self._is_inside_circle(x, y):
-                self._xs_inside.append(x)
-                self._ys_inside.append(y)
+            if self._iscoords_inside_circle(x, y):
+                self.coords_inside.append((x, y))
             else:
-                self._xs_outside.append(x)
-                self._ys_outside.append(y)
-        self.pi = self._calculate_pi()
+                self.coords_outside.append((x, y))
+            self.pi_approximations.append(self._calculate_pi())
 
     def _get_random_xy_coordinates(self) -> tuple:
         return (random.uniform(0.0, 1.0), random.uniform(0.0, 1.0))
 
-    def _is_inside_circle(self, x: float, y: float) -> bool:
+    def _iscoords_inside_circle(self, x: float, y: float) -> bool:
         return x * x + y * y < 1.0
 
     def _calculate_pi(self) -> float:
         '''Formula for calculating Pi from hits in circle and total hits'''
-        return 4.0 * float(len(self._xs_inside)) / float(
-            len(self._xs_inside) + len(self._xs_outside))
+        return 4.0 * float(len(self.coords_inside)) / float(
+            len(self.coords_inside) + len(self.coords_outside))
+
+    def get_pi(self) -> float:
+        if self.pi_approximations:
+            return self.pi_approximations[-1]
+        else:
+            return 0.0
+
+    def get_number_of_iterations(self) -> int:
+        return len(self.pi_approximations)

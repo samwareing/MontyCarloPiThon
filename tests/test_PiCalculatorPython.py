@@ -12,8 +12,8 @@ class Test_PyCalculatorPython:
         return pi_calc
 
     def test_empty_valid(self, pi_calc):
-        assert pi_calc.pi == None
-        assert pi_calc._xs_inside == []
-        assert pi_calc._ys_inside == []
-        assert pi_calc._xs_outside == []
-        assert pi_calc._ys_outside == []
+        assert pi_calc.pi_approximations == []
+        assert pi_calc.coords_inside == []
+        assert pi_calc.coords_outside == []
+        assert pi_calc.get_pi() == 0
+        assert pi_calc.get_number_of_iterations() == 0
