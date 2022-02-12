@@ -37,7 +37,7 @@ class PiCalculatorPython:
         '''Run Monte Carlo approximation of Pi'''
         for i in range(iterations):
             x, y = self._get_random_xy_coordinates()
-            if self._iscoords_inside_circle(x, y):
+            if self._is_inside_circle(x, y):
                 self.coords_inside.append((x, y))
             else:
                 self.coords_outside.append((x, y))
@@ -46,7 +46,7 @@ class PiCalculatorPython:
     def _get_random_xy_coordinates(self) -> tuple:
         return (random.uniform(0.0, 1.0), random.uniform(0.0, 1.0))
 
-    def _iscoords_inside_circle(self, x: float, y: float) -> bool:
+    def _is_inside_circle(self, x: float, y: float) -> bool:
         return x * x + y * y < 1.0
 
     def _calculate_pi(self) -> float:
@@ -54,11 +54,13 @@ class PiCalculatorPython:
         return 4.0 * float(len(self.coords_inside)) / float(
             len(self.coords_inside) + len(self.coords_outside))
 
-    def get_pi(self) -> float:
+    @property
+    def pi(self) -> float:
         if self.pi_approximations:
             return self.pi_approximations[-1]
         else:
             return 0.0
 
-    def get_number_of_iterations(self) -> int:
+    @property
+    def iterations(self) -> int:
         return len(self.pi_approximations)
