@@ -8,6 +8,7 @@ class Plot:
         if not isinstance(calculator, (PiCalculatorPython)):
             raise TypeError("calculator must be a pi calculator.")
         self.calculator = calculator
+        self.colours = {'primary': 'red', 'secondary': 'blue'}
         self._set_up_figure(style, figsize)
         self._add_text()
         self._create_hits_axs()
@@ -47,8 +48,10 @@ class Plot:
         self.error_axs.set_ylabel('Error', fontsize=label_size)
 
     def _create_hits_axs(self):
-        self._scatter_plot(self.calculator.coords_inside, color='red')
-        self._scatter_plot(self.calculator.coords_outside, color='gray')
+        self._scatter_plot(self.calculator.coords_inside,
+                           color=self.colours['primary'])
+        self._scatter_plot(self.calculator.coords_outside,
+                           color=self.colours['secondary'])
 
     def _scatter_plot(self, coords, color) -> None:
         self.hits_axs.scatter(
@@ -60,16 +63,25 @@ class Plot:
 
     def _create_convergence_axs(self):
         self.convergence_axs.semilogx(
-            self.calculator.pi_approximations, color='red')
-        self.convergence_axs.axhline(math.pi, color='gray')
+            self.calculator.pi_approximations, color=self.colours['primary'])
+        self.convergence_axs.axhline(math.pi, color=self.colours['secondary'])
 
     def _create_error_axs(self):
         N = self.calculator.iterations
         self.error_axs.loglog(
             range(N),
-            [x-math.pi for x in self.calculator.pi_approximations]
+            [x-math.pi for x in self.calculator.pi_approximations],
+            color=self.colours['primary']
         )
-        self.error_axs.loglog([1/math.sqrt(i) for i in range(1, N+1)])
+        self.error_axs.loglog(
+            [1/math.sqrt(i) for i in range(1, N+1)],
+            color=self.colours['secondary']
+        )
+
+
+def alert():
+    import winsound
+    winsound.Beep(frequency=440, duration=500)
 
 
 def main():
@@ -77,6 +89,7 @@ def main():
     pc.run(999999)
     pass
     p = Plot(pc)
+    alert()
     print("ending")
 
 
