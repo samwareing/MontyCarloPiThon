@@ -1,7 +1,7 @@
 import random
 
 
-class MontyCarloPiThon:
+class PiCalculatorPython:
     '''
     A Monte Carlo Pi calculator.
     Allows successive Monte Carlo runs.
