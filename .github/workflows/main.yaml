@@ -4,10 +4,10 @@ jobs:
   check-bats-version:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout repository code
+      - name: Checkout repository code
         uses: actions/checkout@v2
         with:
-            fetch-depth: 0
-        - run: pip install .
-        - run: pip install pre-commit pytest
-        - run: pytest tests
+          fetch-depth: 0
+      - run: pip install .
+      - run: pip install pre-commit pytest
+      - run: pytest tests
