@@ -1,7 +1,7 @@
 MontyCarloPiThon
 ================
 
-![example workflow](https://github.com/samwareing/MontyCarloPiThon/actions/workflows/main.yaml/badge.svg)
+[![MontyCarloPiThon](https://github.com/samwareing/MontyCarloPiThon/actions/workflows/main.yaml/badge.svg)](https://github.com/samwareing/MontyCarloPiThon/actions/workflows/main.yaml)
 
 Monte Carlo Pi Approximation in Python. This is only intended as a demo project.
 
